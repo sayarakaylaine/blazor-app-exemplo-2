@@ -1,0 +1,131 @@
+﻿@page "/inventario2"
+@using AppExemplo2.Model;
+@using AppExemplo2.Services;
+@inject PessoaService pessoaService;
+@inject NavigationManager navegacao;
+
+<h3>Registrar inventário de pessoas cadastradas</h3>
+
+<div class="container">
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+    <div class="form-group">
+        <label for="input-datalist">Buscar</label>
+        <input type="text" class="form-control" placeholder="Buscar" list="lista-pessoas" @onchange="SelecionarCidades">
+        <datalist id="lista-pessoas">
+            @foreach (var item in pessoas)
+            {
+                <option value="@item.Cpf">@item.Nome</option>
+            }
+        </datalist>
+    </div>
+     <nav class="navbar navbar-light" style="background-color: white"></nav>
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">NOME:</label>
+        <input @bind="pessoa.Nome" type="text" class="form-control" id="exampleFormControlInput1" disabled="true">
+    </div>
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">CPF:</label>
+                <input @bind="pessoa.Cpf" type="text" class="form-control" id="exampleFormControlInput2" disabled="true">
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">DATA DE NASCIMENTO:</label>
+                <input @bind="pessoa.DataNasc" type="date" class="form-control" id="exampleFormControlInput2" disabled="true">
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">TELEFONE:</label>
+                <input @bind="pessoa.Telefone" type="tel" class="form-control" id="exampleFormControlInput2" disabled="true">
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+    @if (novo == false)
+    {
+        <button type="button" class="btn btn-success" @onclick="Salvar">SALVAR</button>
+        <button type="button" class="btn btn-primary" @onclick="NovoRegistro">CANCELAR</button>
+        <button type="button" class="btn btn-warning" @onclick="AddBens">ADD BENS</button>
+    }
+
+
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+
+    <nav class="navbar navbar-light" style="background-color: darkorange"></nav>
+
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+    @if (novo)
+    {
+        <div class="alert alert-success" role="alert">
+            Salvo com Sucesso;
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="NovoRegistro">NOVO REGISTRO</button>
+    }
+
+    <div class="row align-items-start">
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">DESCRIÇÃO:</label>
+                <input @bind="Descricao" type="text" class="form-control" id="exampleFormControlInput1" disabled="@campoBloqueado">
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">VALOR:</label>
+                <input @bind="Valor" type="number" class="form-control" id="exampleFormControlInput1" disabled="@campoBloqueado">
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-light" style="background-color: white"></nav>
+    <nav class="navbar navbar-light" style="background-color: darkgreen"></nav>
+    <h4 style="text-align:center">Bens Cadastrados</h4>
+
+</div>
+
+@code {
+    private string? Descricao { get; set; }
+    private double? Valor { get; set; }
+    private bool novo = false;
+    private List<Pessoa> pessoas { get; set; }
+    private Pessoa? pessoa = new Pessoa();
+    private bool campoBloqueado = false;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        pessoas = new List<Pessoa>();
+        var lista = pessoaService?.Pessoas();
+        pessoas = lista.Result.ToList();
+    }
+
+    public void SelecionarCidades(ChangeEventArgs e)
+    {
+        
+       
+    }
+
+
+    private void AddBens()
+    {
+      
+    }
+
+    public async Task Salvar()
+    {
+      
+    }
+
+    public void NovoRegistro()
+    {
+        novo = false;
+        //navegacao.NavigateTo("/cadastro");
+        navegacao.NavigateTo("/inventario", forceLoad: true);
+    }
+
+}
